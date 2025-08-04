@@ -1,0 +1,21 @@
+name: Check for 'haider' in PR Description
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  check-description:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate presence of the word 'haider' in PR description
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prBody = context.payload.pull_request.body || "";
+
+            if (!/haider/i.test(prBody)) {
+              core.setFailed("❌ The word 'haider' was not found in the pull request description.");
+            } else {
+              console.log("✅ 'haider' found in the pull request description.");
+            }
